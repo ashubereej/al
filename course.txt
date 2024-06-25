@@ -1,0 +1,583 @@
+<?php
+$links = mysqli_connect("localhost", "[user]", "[pass]", "[db]");
+
+function sanitizeemail($email)
+{
+  global $links;
+  $email=strtolower($email);
+  $email=trim($email);
+  mysqli_real_escape_string($links, $email);
+  return $email;
+}
+
+if(isset($_GET['email']))
+{
+  $email=sanitizeemail($_GET['email']);
+  $ress=mysqli_query($links, "SELECT * from course WHERE email='$email' ORDER BY id DESC");
+  if(mysqli_num_rows($ress))
+  {
+    $rowss = mysqli_fetch_assoc($ress);
+    $emaile=$rowss['email'];
+    setcookie("courseuser", $emaile, time() + (86400 * 100), "/");
+    //header('Location: https://dobecause.org/arc/course.php');
+    echo "yes";
+    exit();
+  }
+}
+
+if($_GET['logout']=='1')
+{
+  setcookie("courseuser", "", time()-3600, "/");
+  header('Location: https://aleenarais.com/course.php');
+}
+$show='login';
+if(isset($_COOKIE["courseuser"])) {
+      $val=$_COOKIE["courseuser"];
+      $val=mysqli_real_escape_string($links,$val);
+      $ress=mysqli_query($links, "SELECT * from course WHERE email='$val' ORDER BY id DESC");
+      if(mysqli_num_rows($ress))
+      {
+        $show='course';
+      }
+
+
+
+    } else {
+      $show='login';
+}
+
+//echo "<a href='?logout=1'>Logout</a>";
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title><?php
+if($show=='login') {
+  echo "Login";
+}
+else {
+  echo "English Speaking Course by Aleena Rais";
+}
+   ?></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="https://aleenarais.com/images/favicon.ico">
+
+  <!-- Css -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&family=Inter+Tight:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100&display=swap">
+  </body>
+  <link rel=" stylesheet" href="css/style.css">
+</head>
+
+<body>
+<?php
+if($show=='login') {
+  ?>
+  <div class="wrapper foot-fix">
+    <!-- Header -->
+    <header>
+      <div class="header-top">
+        <h2 class="text-center">Aleena Rais</h2>
+      </div>
+    </header>
+
+    <!-- Login -->
+    <section class="login">
+      <h3>Log In</h3>
+      <div class="input-div">
+        <label>Enter Your Email ID</label>
+        <div class="input">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M3.33332 3.33337H16.6667C17.5833 3.33337 18.3333 4.08337 18.3333 5.00004V15C18.3333 15.9167 17.5833 16.6667 16.6667 16.6667H3.33332C2.41666 16.6667 1.66666 15.9167 1.66666 15V5.00004C1.66666 4.08337 2.41666 3.33337 3.33332 3.33337Z"
+              stroke="#5E5E5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M18.3333 5L9.99999 10.8333L1.66666 5" stroke="#5E5E5E" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <input id="txtr" type="text" placeholder="info@gmail.com" name="usrnm">
+        </div>
+        <div style="
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+">Please enter the same email id your entered while making the payment</div>
+        <button id="btn" class="btn gr-btn">Sign In</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="email-div">
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path
+            d="M3.33333 3.33337H16.6667C17.5833 3.33337 18.3333 4.08337 18.3333 5.00004V15C18.3333 15.9167 17.5833 16.6667 16.6667 16.6667H3.33333C2.41666 16.6667 1.66666 15.9167 1.66666 15V5.00004C1.66666 4.08337 2.41666 3.33337 3.33333 3.33337Z"
+            stroke="url(#paint0_linear_32_8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M18.3333 5L10 10.8333L1.66666 5" stroke="url(#paint1_linear_32_8)" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <defs>
+            <linearGradient id="paint0_linear_32_8" x1="10" y1="3.33337" x2="10" y2="16.6667"
+              gradientUnits="userSpaceOnUse">
+              <stop stop-color="#F3C255" />
+              <stop offset="1" stop-color="#FC846B" />
+            </linearGradient>
+            <linearGradient id="paint1_linear_32_8" x1="10" y1="5" x2="10" y2="10.8333" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#F3C255" />
+              <stop offset="1" stop-color="#FC846B" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <p>hello@aleenarais.com</p>
+      </div>
+    </section>
+  </div>
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script>
+    $(document).ready(function () {
+
+      $( "#btn" ).click(function() {
+        if($( "#txtr" ).val())
+        {
+          //alert($( "#txtr" ).val());
+          // $( "#tbl" ).html("Loading....");
+          $.ajax({
+            url: 'https://aleenarais.com/course.php?set=1&email='+encodeURIComponent($( "#txtr" ).val()),
+            success: function(res) {
+              if(res=="yes")
+              {
+                location.reload();
+              }
+              else {
+                alert("Your email id is not in our record.")
+              }
+            }
+          });
+        }
+        else {
+          alert("Please enter your email id");
+        }
+      });
+
+    });
+
+
+
+
+  </script>
+<?php } else { ?>
+  <div class="wrapper">
+    <!-- Header -->
+    <header>
+      <div class="header-top">
+        <h2 class="text-center">Aleena Rais</h2>
+      </div>
+    </header>
+
+    <!-- English Speaking Course -->
+    <section class="en-speak">
+      <h3>Members Area</h3>
+      <p>Welcome to the course. Please watch all 20 videos and complete all homework activities. Happy learning :)</p>
+    </section>
+
+    <!-- Who is Aleena Rais -->
+    <section class="who-aleena">
+      <h3 class="yt-section-title yt-text-secondary">
+        <span class="yt-section-title-left-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="39" viewBox="0 0 17 39" fill="none">
+            <path
+              d="M3.84411 30.5825C3.74643 30.2461 3.92688 29.8836 4.25939 29.7741L8.20572 28.5257C8.53297 28.4253 8.8856 28.6108 8.9921 28.9526C9.09156 29.2962 8.90933 29.6514 8.57681 29.7609L4.6305 31.0094C4.2962 31.1116 3.95062 30.9243 3.84411 30.5825Z"
+              fill="#00BDBC" />
+            <path
+              d="M5.94598 20.9406C5.94598 21.3362 5.62654 21.6496 5.24177 21.6421L0.682553 21.575C0.297779 21.575 -0.00713289 21.2466 0.000126995 20.8511C0.000126995 20.4555 0.319563 20.1421 0.704337 20.1496L5.26355 20.2167C5.64832 20.2167 5.95324 20.5451 5.94598 20.9406Z"
+              fill="#FF2B77" />
+            <path
+              d="M8.82142 10.5903C8.66897 11.0754 8.15351 11.3366 7.68162 11.1799L2.06972 9.26943C1.59783 9.11271 1.34373 8.58285 1.49619 8.09777C1.64865 7.6127 2.16411 7.3515 2.636 7.50822L8.24789 9.41869C8.71978 9.5754 8.97388 10.1053 8.82142 10.5903Z"
+              fill="#EE9000" />
+            <path
+              d="M15.5877 5.91429C15.2561 6.25413 14.7175 6.24804 14.3869 5.90716L10.4585 1.83834C10.1279 1.49747 10.1339 0.943745 10.4655 0.603911C10.7971 0.264077 11.3357 0.270162 11.6663 0.611036L15.5947 4.67986C15.9253 5.02073 15.9194 5.57446 15.5877 5.91429Z"
+              fill="#0060C0" />
+            <path
+              d="M10.9847 36.8615C10.8007 36.5962 10.8618 36.2141 11.1258 36.0291L14.2589 33.7578C14.517 33.5686 14.8887 33.6314 15.0686 33.9029C15.2527 34.1681 15.1916 34.5503 14.9275 34.7352L11.7944 37.0066C11.5364 37.1957 11.1646 37.1329 10.9847 36.8615Z"
+              fill="#81C042" />
+          </svg>
+        </span>
+        Course Videos<span class="yt-section-title-right-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="39" viewBox="0 0 18 39" fill="none">
+            <path
+              d="M13.3866 30.5825C13.4843 30.2461 13.3038 29.8836 12.9713 29.7741L9.025 28.5257C8.69774 28.4253 8.34512 28.6108 8.23861 28.9526C8.13915 29.2962 8.32139 29.6514 8.6539 29.7609L12.6002 31.0094C12.9345 31.1116 13.2801 30.9243 13.3866 30.5825Z"
+              fill="#00BDBC" />
+            <path
+              d="M11.2847 20.9406C11.2847 21.3362 11.6042 21.6496 11.9889 21.6421L16.5482 21.575C16.9329 21.575 17.2378 21.2466 17.2306 20.8511C17.2306 20.4555 16.9111 20.1421 16.5264 20.1496L11.9672 20.2167C11.5824 20.2167 11.2775 20.5451 11.2847 20.9406Z"
+              fill="#FF2B77" />
+            <path
+              d="M8.40929 10.5903C8.56175 11.0754 9.0772 11.3366 9.54909 11.1799L15.161 9.26943C15.6329 9.11271 15.887 8.58285 15.7345 8.09777C15.5821 7.6127 15.0666 7.3515 14.5947 7.50822L8.98282 9.41869C8.51093 9.5754 8.25683 10.1053 8.40929 10.5903Z"
+              fill="#EE9000" />
+            <path
+              d="M1.64297 5.91429C1.97457 6.25413 2.51324 6.24804 2.84384 5.90716L6.77218 1.83834C7.10277 1.49747 7.09686 0.943745 6.76525 0.603911C6.43364 0.264077 5.89498 0.270162 5.56438 0.611036L1.63604 4.67986C1.30544 5.02073 1.31136 5.57446 1.64297 5.91429Z"
+              fill="#0060C0" />
+            <path
+              d="M6.24602 36.8615C6.43003 36.5962 6.36894 36.2141 6.10488 36.0291L2.9718 33.7578C2.71373 33.5686 2.34197 33.6314 2.16207 33.9029C1.97806 34.1681 2.03915 34.5503 2.30321 34.7352L5.43629 37.0066C5.69436 37.1957 6.06612 37.1329 6.24602 36.8615Z"
+              fill="#81C042" />
+          </svg>
+        </span>
+      </h3>
+
+      <div class="accordion_container">
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 1</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 1: Welcome to the course</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/k2sHgscCqnE"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+              <div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSd-qj6BXgBpcAwu25RWAw61G2KQlYTypEoDkcrSxp6snWyadg/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 2</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 2: Course structure</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/FZu3MqQGo08"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 3</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 3: Speak English not just watch course videos</p>
+            <span style="
+    margin: 5px 0px;
+    padding: 5px 0px;
+    display: block;
+    background-color: lightyellow;
+">Note: if the app I talk about in the video doesn't work, please use <a href='https://play.google.com/store/apps/details?id=com.aleenarais.talkwith&hl=en&gl=US'>this app</a> to complete the homework.</span>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/6vlxKodikaM"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe><div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScHoml28Y8lP9t11B2jjWoQBs0k5bzAA0tgZeVGhYgurTBD-g/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 4</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 4: Don’t have an English speaking partner?</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/jz-WgXsUbE8"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 5</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 5: “I can understand English but can’t speak that well”</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/0jkGWjY2Ac8"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+              <div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfgaayouTVgAUPeEPA1nuO4V1HdLwGHXIvyMGAAwCSDNCXyTA/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 6</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 6: How to practice alone</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/KhLFxbMC4gE"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 7</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 7: Resistance and Excuses? Just do it!</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/0qK4LObFUK4"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 8</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 8: "I make too many grammatical mistakes"</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/eHXyNUZUqGY"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+              <div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdhgk-7ErfU2KlnOHLhaWZzkNp6lDske_5BJTXxPCX0encNug/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 9</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 9: "Words don't come to mind while speaking"</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/7_eztSr-fH4"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 10</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 10: "What do I speak while practicing?"</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/ew9fgr9sTY8"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 11</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 11: A quick test to check if you are going in the right direction</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/Mzl6VvlQGw8"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+              <div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScpki1WTEooFeR2nyLFGgzm3U8rLiEpyDBCZ_zaOC4CMAXVlw/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 12</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 12: Fear! Hesitation! Shame! Nervousness! Avoidance!</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/c-uO7JtYOWo"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 13</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 13: Do you use too many filler words?</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/RC8wwGvWBKA"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe><div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfQx3fzVrCNTHOi0QIWaujZPnbY5VkiPOXcPUxm3kxm9oxuig/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 14</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 14: How to start thinking in English?</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/YDKeEn9ZzW8"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 15</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 15: Tenses? Vocabulary? Grammar? What about them?</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/mOsd3xfU3cs"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe><div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSe5Ac-QbHK9KaJv3s9lzNS9EhO9DJx0ep6aWmFDO9kiOcXLbA/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 16</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 16: Expose yourself to English content</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/LWK10X_y834"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 17</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 17: 5 biggest mistakes</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/ils9wav7IgY"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 18</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 18: Communication is exchange of ideas, not just words.</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/9mgKQvJKcI0"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe><div style="
+    background-color: coral;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0px;
+"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScfZJeFh7Khd4FZnQT0BDccm0HKHWeD3-4qRL5CmEN1_wrNuw/viewform" style="
+    color: white;
+    text-decoration: none;
+    outline: none;
+">Take an English Quiz</a></div>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 19</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 19: It’s just a language!</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/Enk7AwJdpFo"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header"><span>Lesson 20</span></div>
+          <div class="accordion-content">
+            <p>Course Lesson 20: Key Takeaways From The Course</p>
+            <iframe width="100%" height="180" data-src="https://www.youtube.com/embed/DKPyCVm6Yr8"
+              title="Random Learning of Spoken English" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+      </div>
+
+
+    </section>
+
+  </div>
+
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script>
+    $(document).ready(function () {
+
+      const accordions = document.querySelectorAll('.accordion');
+
+      accordions.forEach(accordion => {
+        const header = accordion.querySelector('.accordion-header');
+        const content = accordion.querySelector('.accordion-content');
+
+        header.addEventListener('click', () => {
+          // Load the iframe only when the content becomes active
+          if (!content.classList.contains('active')) {
+            const iframe = content.querySelector('iframe');
+            if (iframe.dataset.src) {
+              iframe.src = iframe.dataset.src;
+              delete iframe.dataset.src; // Remove the data-src attribute to avoid reloading the iframe
+            }
+          }
+
+          // Toggle the 'active' class on the accordion content to show/hide it
+          header.classList.toggle('active');
+          content.classList.toggle('active');
+
+          // If the content is active, close all other accordion contents
+          if (content.classList.contains('active')) {
+            accordions.forEach(item => {
+              if (item !== accordion) {
+                item.querySelector('.accordion-header').classList.remove('active');
+                item.querySelector('.accordion-content').classList.remove('active');
+              }
+            });
+          }
+        });
+      });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+  <div style="
+    text-align: center;
+    margin: 10px 0px 28px 0px;
+"><a href="?logout=1">Logout</a></div>
+<?php
+
+ } ?>
+</body>
+</html>

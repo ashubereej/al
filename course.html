@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aleena Rais</title>
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="relative bg-[#FFF4F4] course-main">
+        <section class="text-black min-h-screen font-medium body-font relative">
+            <div class="absolute bg-gradient-to-r from-orange-500 to-yellow-400 top-0 w-full h-2"></div>
+            <div class="container px-12 py-24 mx-auto">
+                <div class="flex flex-col text-center w-full mb-16">
+                    <h1 class="sm:text-5xl text-4xl font-bold title-font mb-14 text-black"> <span
+                            class="gradient-text">English</span> Speaking Course</h1>
+                    <h2 class="sm:text-4xl text-3xl font-semibold mb-2">Members' Area</h2>
+                    <p class="leading-relaxed text-[18px]">
+                        Welcome to the course. Please watch all 20 videos and complete all homework activities. Happy
+                        learning :)
+                    </p>
+                </div>
+                <a href="/assets/english-ebook-aleena-rais.pdf" target="_blank" id="download"
+                    class="flex items-center justify-center px-5 py-8 my-8 text-2xl font-bold rounded-xl bg-gradient-to-r from-[#FFC46C] to-[#FF8753]">
+                    Download eBook PDF
+                </a>
+                <div class="flex flex-wrap -m-4" id="courses">
+                    <!-- Add courses below in the array -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.1/jquery-migrate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.0/swiper-bundle.min.js"></script>
+    <script src="/assets/main.js"></script>
+
+    <script>
+        const coursesContainer = document.querySelector("#courses");
+
+        const courseArray = [
+            {
+                id: 1,
+                title: "Lesson 1",
+                content: "Course Lesson 1: Welcome to the course",
+                videoSrc: "https://www.youtube.com/embed/k2sHgscCqnE",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLSd-qj6BXgBpcAwu25RWAw61G2KQlYTypEoDkcrSxp6snWyadg/viewform",
+            },
+            {
+                id: 2,
+                title: "Lesson 2",
+                content: "Course Lesson 2: Course structure",
+                videoSrc: "https://www.youtube.com/embed/FZu3MqQGo08",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLScpBLm1_wKZbhA5Tykqgknpe5MiGPQ_0_DdnPhEiqlk9GekCA/viewform",
+            },
+            {
+                id: 3,
+                title: "Lesson 3",
+                content: "Course Lesson 3: Speak English not just watch course videos",
+                videoSrc: "https://www.youtube.com/embed/6vlxKodikaM",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLScHoml28Y8lP9t11B2jjWoQBs0k5bzAA0tgZeVGhYgurTBD-g/viewform",
+            },
+            {
+                id: 4,
+                title: "Lesson 4",
+                content: "Course Lesson 4: Don’t have an English speaking partner?",
+                videoSrc: "https://www.youtube.com/embed/jz-WgXsUbE8",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLSeTv08CPmGl7cNBDJtV253_bbsWDP4hyTJ64igpV9NmihLKAg/viewform",
+            },
+            {
+                id: 5,
+                title: "Lesson 5",
+                content: "Course Lesson 5: “I can understand English but can’t speak that well”",
+                videoSrc: "https://www.youtube.com/embed/0jkGWjY2Ac8",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLSfgaayouTVgAUPeEPA1nuO4V1HdLwGHXIvyMGAAwCSDNCXyTA/viewform",
+            },
+            {
+                id: 6,
+                title: "Lesson 6",
+                content: "Course Lesson 6: How to practice alone",
+                videoSrc: "https://www.youtube.com/embed/KhLFxbMC4gE",
+            },
+            {
+                id: 7,
+                title: "Lesson 7",
+                content: "Course Lesson 7: Resistance and Excuses? Just do it!",
+                videoSrc: "https://www.youtube.com/embed/0qK4LObFUK4",
+            },
+            {
+                id: 8,
+                title: "Lesson 8",
+                content: "Course Lesson 8: 'I make too many grammatical mistakes'",
+                videoSrc: "https://www.youtube.com/embed/eHXyNUZUqGY",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLSdhgk-7ErfU2KlnOHLhaWZzkNp6lDske_5BJTXxPCX0encNug/viewform",
+            },
+            {
+                id: 9,
+                title: "Lesson 9",
+                content: "Course Lesson 9: 'Words don't come to mind while speaking'",
+                videoSrc: "https://www.youtube.com/embed/7_eztSr-fH4",
+            },
+            {
+                id: 10,
+                title: "Lesson 10",
+                content: "Course Lesson 10: 'What do I speak while practicing?'",
+                videoSrc: "https://www.youtube.com/embed/ew9fgr9sTY8",
+            },
+            {
+                id: 11,
+                title: "Lesson 11",
+                content: "Course Lesson 11: A quick test to check if you are going in the right direction",
+                videoSrc: "https://www.youtube.com/embed/Mzl6VvlQGw8",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLScpki1WTEooFeR2nyLFGgzm3U8rLiEpyDBCZ_zaOC4CMAXVlw/viewform",
+            },
+            {
+                id: 12,
+                title: "Lesson 12",
+                content: "Course Lesson 12: Fear! Hesitation! Shame! Nervousness! Avoidance!",
+                videoSrc: "https://www.youtube.com/embed/c-uO7JtYOWo",
+            },
+            {
+                id: 13,
+                title: "Lesson 13",
+                content: "Course Lesson 13: Do you use too many filler words?",
+                videoSrc: "https://www.youtube.com/embed/RC8wwGvWBKA",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLSfQx3fzVrCNTHOi0QIWaujZPnbY5VkiPOXcPUxm3kxm9oxuig/viewform",
+            },
+            {
+                id: 14,
+                title: "Lesson 14",
+                content: "Course Lesson 14: How to start thinking in English?",
+                videoSrc: "https://www.youtube.com/embed/YDKeEn9ZzW8",
+            },
+            {
+                id: 15,
+                title: "Lesson 15",
+                content: "Course Lesson 15: Tenses? Vocabulary? Grammar? What about them?",
+                videoSrc: "https://www.youtube.com/embed/mOsd3xfU3cs",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLSe5Ac-QbHK9KaJv3s9lzNS9EhO9DJx0ep6aWmFDO9kiOcXLbA/viewform",
+            },
+            {
+                id: 16,
+                title: "Lesson 16",
+                content: "Course Lesson 16: Expose yourself to English content",
+                videoSrc: "https://www.youtube.com/embed/LWK10X_y834",
+            },
+            {
+                id: 17,
+                title: "Lesson 17",
+                content: "Course Lesson 17: 5 biggest mistakes",
+                videoSrc: "https://www.youtube.com/embed/ils9wav7IgY",
+            },
+            {
+                id: 18,
+                title: "Lesson 18",
+                content: "Course Lesson 18: Communication is exchange of ideas, not just words.",
+                videoSrc: "https://www.youtube.com/embed/9mgKQvJKcI0",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLScfZJeFh7Khd4FZnQT0BDccm0HKHWeD3-4qRL5CmEN1_wrNuw/viewform",
+            },
+            {
+                id: 19,
+                title: "Lesson 19",
+                content: "Course Lesson 19: It’s just a language!",
+                videoSrc: "https://www.youtube.com/embed/Enk7AwJdpFo",
+            },
+            {
+                id: 20,
+                title: "Lesson 20",
+                content: "Course Lesson 20: Key Takeaways From The Course",
+                videoSrc: "https://www.youtube.com/embed/DKPyCVm6Yr8",
+                quizLink: "https://docs.google.com/forms/d/e/1FAIpQLSfgFAFWB_GGHojU5cC0myhMtmVt9ReSvCD4uZ2SolHPNQcivQ/viewform",
+            },
+        ];
+
+
+        function createCourseElement(course) {
+            return `
+                <div class="mx-auto p-4 course-card" key="${course.id}">
+                    <div class="bg-white p-6 rounded-[30px] shadow-lg">
+                        <iframe src="${course.videoSrc}" class="mb-4 rounded-3xl w-full"
+                            controls allowfullscreen id="video"></iframe>
+                        <div id="course-cta">
+                            <div class="my-2 mr-1 h-full">
+                                <h3 class="tracking-widest text-purple-800 text-xs font-bold title-font">${course.title}</h3>
+                                <h2 class="text-lg text-gray-900 font-medium title-font mb-1">${course.content}</h2>
+                            </div>
+                            <a href="${course.quizLink}" target="_blank" class="text-black bg-gradient-to-r from-[#FFC46C] to-[#FF8753] transition-all border-0 py-2 px-10 w-full text-center focus:outline-none rounded-full text-lg">Take a Quiz</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        const courseElements = courseArray.map(createCourseElement).join('');
+        coursesContainer.innerHTML = courseElements;
+    </script>
+
+</body>

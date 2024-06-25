@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aleena Rais</title>
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="relative bg-[#FFF4F4] login-main">
+        <section class="text-black font-medium min-h-screen body-font relative">
+            <div class="absolute w-full h-2 top-0 bg-gradient-to-r from-[#FFC46C] to-[#FF8753]"></div>
+            <div class="container mx-auto p-5 py-24">
+                <div class="flex flex-col text-center w-full mb-8">
+                    <h1 class="sm:text-5xl text-4xl font-bold title-font mb-4 text-black">
+                        <span class="gradient-text">English</span> Speaking Course
+                    </h1>
+                </div>
+                <div class="w-[40%] mx-auto py-6 transition-all" id="login-card">
+                    <h2 class="text-purple-900 text-4xl text-center mb-4 font-bolder">
+                        <span class="orange-text"> Login</span>
+                    </h2>
+                    <p class="leading-relaxed mb-5 text-black text-center font-medium">Login to your account and get
+                        access
+                        to all the exclusive course materials</p>
+                    <div class="bg-white drop-shadow-[0px_4px_0px_#FFC46C10] rounded-2xl px-10 py-12 my-8">
+                        <div class="relative mb-4">
+                            <label for="name" class="leading-7 text-[1rem] text-black font-[700]">Name</label>
+                            <input type="text" id="name" name="name" placeholder="name"
+                                class="w-full bg-white rounded-lg border-2 border-[#FFC46C] focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-black py-1 px-3 my-2 leading-8 transition-colors duration-200 ease-in-out">
+                            <span class="text-base text-[#6F6F6F]">
+                                Please use the email id you used to make the payment
+                            </span>
+                        </div>
+                        <div class="relative">
+                            <label for="email" class="leading-7 text-[1rem] text-black font-[700]">Email</label>
+                            <input type="email" id="email" name="email" placeholder=""
+                                class="w-full bg-white rounded-lg border-2 border-[#FFC46C] focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-black py-1 px-3 my-2 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <button id="loginButton"
+                            class="text-black bg-gradient-to-r from-[#FFC46C] to-[#FF8753] w-full mt-8 transition-all border-0 py-3 px-6 focus:outline-none rounded-xl text-lg">Login</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div
+            class="absolute bottom-0 p-4 w-full bg-gradient-to-l rounded-t-3xl text-center from-[#FF8753] to-[#FFC46C]">
+            <a href="mailto:hello@aleenarais.com" class="text-white text-xl font-medium">
+                hello@aleenarais.com
+            </a>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.1/jquery-migrate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.0/swiper-bundle.min.js"></script>
+    <script src="/assets/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const name = document.querySelector('#name');
+        const email = document.querySelector('#email');
+        const loginButton = document.querySelector('#loginButton');
+
+        loginButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            if (name.value.length === 0 || email.value.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please fill in all fields',
+                })
+            } else {
+                Swal.fire({
+                    title: 'Login success',
+                })
+
+                window.location.replace('/course.html')
+            }
+        });
+    </script>
+
+</body>
+
+</html>
